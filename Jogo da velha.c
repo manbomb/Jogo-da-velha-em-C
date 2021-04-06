@@ -60,6 +60,34 @@ int existeGanhador(int n, int matrix[n][n]) { // 0 - continua jogo | 1 - x ganho
     return 0;
 }
 
+void realizaJogada(int n, int jogador, size_t N, size_t M, int matrix[N][M]) {
+    int l = n+1;
+    int c = n+1;
+    int jogou = 0;
+    
+    while(!jogou) {
+        while(l > n || l < 1) {
+            printf("\nLinha para marcar (de 1 a %d): ", n);
+            scanf("%d", &l);
+            if (l > n || l < 1) printf("Escolha uma linha valida.\n");
+        }
+        while(c > n || c < 1) {
+            printf("Coluna para marcar (de 1 a %d): ", n);
+            scanf("%d", &c);
+            if (c > n || c < 1) printf("Escolha uma coluna valida.\n");
+        }
+        
+        if (matrix[l-1][c-1] != 0) {
+            printf("\nEsta posição ja esta marcada. Escolha outra por favor.\n");
+            printTabuleiro(n, matrix);
+        } else {
+            matrix[l-1][c-1] = jogador;
+            jogou = 1;
+            printTabuleiro(n, matrix);
+        }
+    }
+}
+
 int main(){
     
     printf("################################\n");
@@ -87,8 +115,6 @@ int main(){
     int jogador = 1;
     
     while(1) {
-        int l = n+1;
-        int c = n+1;
         
         if (jogador == 1) {
             printf("\nVEZ do X");
@@ -96,44 +122,29 @@ int main(){
             printf("\nVEZ do O");
         }
         
-        while(l > n || l < 1) {
-            printf("\nLinha para marcar (de 1 a %d): ", n);
-            scanf("%d", &l);
-            if (l > n || l < 1) printf("Escolha uma linha valida.\n");
-        }
-        while(c > n || c < 1) {
-            printf("Coluna para marcar (de 1 a %d): ", n);
-            scanf("%d", &c);
-            if (c > n || c < 1) printf("Escolha uma coluna valida.\n");
+        realizaJogada(n, jogador, (size_t)n, (size_t)n, matrix);
+        
+        if (jogador == 1) {
+            jogador = 2;
+        } else {
+            jogador = 1;
         }
         
-        if (matrix[l-1][c-1] != 0) {
-            printf("\nEsta posição ja esta marcada. Escolha outra por favor.\n");
-            printTabuleiro(n, matrix);
-        } else {
-            matrix[l-1][c-1] = jogador;
-            printTabuleiro(n, matrix);
-            if (jogador == 1) {
-                jogador = 2;
-            } else {
-                jogador = 1;
+        if (existeGanhador(n, matrix) != 0) {
+            switch (existeGanhador(n, matrix)) {
+                case 3:
+                    printf("\nHouve um empate!");
+                break;
+                case 2:
+                    printf("\nO 'O' GANHOU!!!");
+                break;
+                case 1:
+                    printf("\nO 'X' GANHOU!!!");
+                break;
             }
-            
-            if (existeGanhador(n, matrix) != 0) {
-                switch (existeGanhador(n, matrix)) {
-                    case 3:
-                        printf("\nHouve um empate!");
-                    break;
-                    case 2:
-                        printf("\nO 'O' GANHOU!!!");
-                    break;
-                    case 1:
-                        printf("\nO 'X' GANHOU!!!");
-                    break;
-                }
-                return 0;
-            }
+            return 0;
         }
+        
     }
     
 }
