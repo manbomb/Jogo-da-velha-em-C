@@ -61,11 +61,12 @@ int existeGanhador(int n, int matrix[n][n]) { // 0 - continua jogo | 1 - x ganho
 }
 
 void realizaJogada(int n, int jogador, size_t N, size_t M, int matrix[N][M]) {
-    int l = n+1;
-    int c = n+1;
     int jogou = 0;
     
     while(!jogou) {
+        int l = n+1;
+        int c = n+1;
+        
         while(l > n || l < 1) {
             printf("\nLinha para marcar (de 1 a %d): ", n);
             scanf("%d", &l);
@@ -82,8 +83,8 @@ void realizaJogada(int n, int jogador, size_t N, size_t M, int matrix[N][M]) {
             printTabuleiro(n, matrix);
         } else {
             matrix[l-1][c-1] = jogador;
-            jogou = 1;
             printTabuleiro(n, matrix);
+            jogou = 1;
         }
     }
 }
@@ -148,3 +149,4 @@ int main(){
     }
     
 }
+
